@@ -4,7 +4,7 @@ This is a project that undertakes web mapping using the library "mapbox" to crea
 ## Map1, Choropleth Map of Covid-19 Rates
 <img src="img/map1sc.png" alt="map 1 screenshot"/>
 
-### Link to the map
+### Link to the map:
 
 ## Map2, Proportional Symbol Map of Covid-19 Cases
 <img src="img/map2sc.png" alt="map 2 screenshot"/>
