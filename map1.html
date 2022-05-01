@@ -13,12 +13,18 @@
 
 <body>
     <div id="map"></div>
-    <div id="legend"></div>
+    <div class='map-overlay' id="legend"></div>
+    <div class='map-overlay' id='features'>
+        <h2>US covid rates</h2>
+        <div id='text-description'>
+            <p>Hover over a county!</p>
+        </div>
+    </div>
     <div id="title">
-        Covid-19 Rates in the United States
+        2020 Covid-19 Rates in the United States
     </div>
     <div id="subtitle">
-        2020
+        Choropleth map relaying the covid rates in an area. Covid data collected from The New York Times while population and geodata taken from US Census.
     </div>
     <script src="js/main.js"></script>
 
