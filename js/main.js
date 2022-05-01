@@ -7,9 +7,9 @@ zoom: 4.5, // starting zoom
 center: [-101, 40] // starting center
 });
 
-const grades = [4, 5, 6],
-colors = ['rgb(208,209,230)', 'rgb(103,169,207)', 'rgb(1,108,89)'],
-radii = [5, 15, 20];
+const grades = [5000, 10000, 20000, 30000],
+colors = ['rgb(208,209,230)', 'rgb(103,169,207)', 'rgb(1,108,89)', 'rgb(179, 0, 65)']
+radii = [2, 5, 15, 20];
 
 //load data to the map as new layers.
 //map.on('load', function loadingData() {
@@ -18,19 +18,19 @@ map.on('load', () => { //simplifying the function statement: arrow with brackets
 // when loading a geojson, there are two steps
 // add a source of the data and then add the layer out of the source
 map.addSource('covidcases', {
-    type: 'json',
-    data: 'assets\covid-2020-counts.json'
+    type: 'geojson',
+    data: 'assets/us-covid-2020-counts.json'
 });
 
 map.addLayer({
         'id': 'covid-layer',
         'type': 'circle',
         'source': 'covidcases',
-        'minzoom': 5,
+        'minzoom': 4.5,
         'paint': {
             // increase the radii of the circle as the zoom level and dbh value increases
             'circle-radius': {
-                'property': 'mag',
+                'property': 'cases',
                 'stops': [
                     [{
                         zoom: 5,
@@ -43,15 +43,20 @@ map.addLayer({
                     [{
                         zoom: 5,
                         value: grades[2]
-                    }, radii[2]]
+                    }, radii[2]],
+                    [{
+                        zoom: 5,
+                        value: grades[3]
+                    }, radii[3]]
                 ]
             },
             'circle-color': {
-                'property': 'mag',
+                'property': 'cases',
                 'stops': [
                     [grades[0], colors[0]],
                     [grades[1], colors[1]],
-                    [grades[2], colors[2]]
+                    [grades[2], colors[2]],
+                    [grades[3], colors[3]],
                 ]
             },
             'circle-stroke-color': 'white',
@@ -64,10 +69,10 @@ map.addLayer({
 
 
 // click on tree to view magnitude in a popup
-map.on('click', 'covid-points', (event) => {
+map.on('click', 'covid-layer', (event) => {
     new mapboxgl.Popup()
         .setLngLat(event.features[0].geometry.coordinates)
-        .setHTML(`<strong>Magnitude:</strong> ${event.features[0].properties.mag}`)
+        .setHTML(`<strong># of Cases:</strong> ${event.features[0].properties.cases}`)
         .addTo(map);
 });
 
@@ -78,7 +83,7 @@ map.on('click', 'covid-points', (event) => {
 const legend = document.getElementById('legend');
 
 //set up legend grades and labels
-var labels = ['<strong>Magnitude</strong>'], vbreak;
+var labels = ['<strong>Cases</strong>'], vbreak;
 //iterate through grades and create a scaled circle and label for each
 for (var i = 0; i < grades.length; i++) {
 vbreak = grades[i];
